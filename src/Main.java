@@ -33,7 +33,6 @@ public class Main extends javax.swing.JFrame {
         jMenu5 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
@@ -64,14 +63,21 @@ public class Main extends javax.swing.JFrame {
 
         jMenu5.setText("Ticketing");
 
-        jMenuItem6.setText("Book Ticket");
+        jMenuItem6.setText("Add Bookings");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
         jMenu5.add(jMenuItem6);
 
-        jMenuItem5.setText("Add Ticket");
+        jMenuItem5.setText("Booking Details");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
         jMenu5.add(jMenuItem5);
-
-        jMenuItem2.setText("Report");
-        jMenu5.add(jMenuItem2);
 
         jMenuBar2.add(jMenu5);
 
@@ -130,6 +136,17 @@ public class Main extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        // TODO add your handling code here:
+        addBookings addBook = new addBookings();
+        jDesktopPane1.add(addBook);        
+        addBook.setVisible(true);        
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -173,7 +190,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
