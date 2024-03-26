@@ -1,2 +1,3 @@
 King*King Harlequin*12345*admin
 Brags*Franz Braga*123456789*customer
+Kong*King Kong*King*customer

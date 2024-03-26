@@ -23,9 +23,6 @@ public class createAccount extends javax.swing.JFrame {
         initComponents();
         
     }
-    public static File txtFile;
-    public static FileWriter fileWriter;
-    File fileJa = new File("studentEntry.txt");
     public String input(){
         String username = userTF.getText();
         String fullname = fullnameTF.getText();

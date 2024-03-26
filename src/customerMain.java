@@ -51,7 +51,7 @@ public class customerMain extends javax.swing.JFrame {
 
         jMenu5.setText("Ticketing");
 
-        jMenuItem6.setText("Add Bookings");
+        jMenuItem6.setText("Book");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem6ActionPerformed(evt);
