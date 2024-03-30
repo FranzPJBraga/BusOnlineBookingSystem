@@ -1,6 +1,8 @@
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -23,13 +25,13 @@ public class busInformation extends javax.swing.JInternalFrame {
         displayBusInformation();
     }
     private void displayBusInformation() {
-        originalModel = (DefaultTableModel) jTable1.getModel(); // Store the original model
-        originalModel.setRowCount(0); // Clear existing rows
+        originalModel = (DefaultTableModel) jTable1.getModel();
+        originalModel.setRowCount(0);
 
         try (BufferedReader br = new BufferedReader(new FileReader("busInformation.txt"))) {
             String line;
             while ((line = br.readLine()) != null) {
-                String[] data = line.split("\\*"); // Assuming data is separated by '*'
+                String[] data = line.split("\\*");
                 originalModel.addRow(data);
             }
         } catch (Exception e) {
@@ -37,8 +39,24 @@ public class busInformation extends javax.swing.JInternalFrame {
         }
     }
     private void resetTable() {
-        jTable1.setModel(originalModel); // Reset the table to its original model
+        jTable1.setModel(originalModel);
     }
+    private void updateFile() {
+    try (FileWriter writer = new FileWriter("busInformation.txt", false)) {
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        for (int row = 0; row < model.getRowCount(); row++) {
+            for (int col = 0; col < model.getColumnCount(); col++) {
+                writer.write(model.getValueAt(row, col).toString());
+                if (col < model.getColumnCount() - 1) {
+                    writer.write("*");
+                }
+            }
+            writer.write(System.lineSeparator());
+        }
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -55,6 +73,8 @@ public class busInformation extends javax.swing.JInternalFrame {
         searchTF = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        deleteBTN = new javax.swing.JButton();
+        editBTN = new javax.swing.JButton();
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 153));
 
@@ -68,6 +88,12 @@ public class busInformation extends javax.swing.JInternalFrame {
             }
         });
 
+        searchTF.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                searchTFKeyTyped(evt);
+            }
+        });
+
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -76,10 +102,32 @@ public class busInformation extends javax.swing.JInternalFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "Unit", "Serial Number", "Driver", "Passenger Assistant", "Phone Number"
+                "Bus Unit Number", "Serial Number", "Driver", "Passenger Assistant", "Phone Number"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
+
+        deleteBTN.setText("Delete");
+        deleteBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteBTNActionPerformed(evt);
+            }
+        });
+
+        editBTN.setText("Edit");
+        editBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editBTNActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -91,7 +139,11 @@ public class busInformation extends javax.swing.JInternalFrame {
                     .addComponent(jScrollPane1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 317, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 137, Short.MAX_VALUE)
+                        .addComponent(editBTN)
+                        .addGap(18, 18, 18)
+                        .addComponent(deleteBTN)
+                        .addGap(18, 18, 18)
                         .addComponent(searchTF, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1)))
@@ -104,7 +156,9 @@ public class busInformation extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jButton1)
-                    .addComponent(searchTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(searchTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deleteBTN)
+                    .addComponent(editBTN))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(9, Short.MAX_VALUE))
@@ -127,52 +181,94 @@ public class busInformation extends javax.swing.JInternalFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
          String searchText = searchTF.getText().trim();
-
-        // If the search text is empty, display all rows
         if (searchText.isEmpty()) {
             resetTable();
             return;
         }
-
         DefaultTableModel originalModel = (DefaultTableModel) jTable1.getModel();
         DefaultTableModel filteredModel = new DefaultTableModel();
-
-        // Copy the column names to the filtered model
         for (int col = 0; col < originalModel.getColumnCount(); col++) {
             filteredModel.addColumn(originalModel.getColumnName(col));
         }
-
-        // Iterate through the rows of the original model to find matches
         for (int row = 0; row < originalModel.getRowCount(); row++) {
-            boolean rowFound = false;
-            for (int col = 0; col < originalModel.getColumnCount(); col++) {
-                Object cellValue = originalModel.getValueAt(row, col);
-                if (cellValue != null && cellValue.toString().toLowerCase().contains(searchText.toLowerCase())) {
-                    rowFound = true;
-                    break;
-                }
-            }
-            // If the row matches the search criteria, add it to the filtered model
-            if (rowFound) {
-                Object[] rowData = new Object[originalModel.getColumnCount()];
+                boolean rowFound = false;
                 for (int col = 0; col < originalModel.getColumnCount(); col++) {
-                    rowData[col] = originalModel.getValueAt(row, col);
+                    String cellValue = originalModel.getValueAt(row, col).toString();
+                    if (cellValue != null && cellValue.toLowerCase().contains(searchText.toLowerCase())) {
+                        rowFound = true;
+                        break;
+                    }
                 }
+                if (rowFound) {
+                    String[] rowData = new String[originalModel.getColumnCount()];
+                    for (int col = 0; col < originalModel.getColumnCount(); col++) {
+                        rowData[col] = originalModel.getValueAt(row, col).toString();
+                    }
                 filteredModel.addRow(rowData);
             }
         }
-
-        // Set the filtered model to the table
         jTable1.setModel(filteredModel);
-
-        // If no match is found, display a message
         if (filteredModel.getRowCount() == 0) {
             JOptionPane.showMessageDialog(this, "No matching record found.", "Search Result", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void searchTFKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchTFKeyTyped
+        // TODO add your handling code here:
+        String searchText = searchTF.getText().trim();
+        if (searchText.isEmpty()) {
+            resetTable();
+            return;
+        }
+        DefaultTableModel originalModel = (DefaultTableModel) jTable1.getModel();
+        DefaultTableModel filteredModel = new DefaultTableModel();
+        for (int col = 0; col < originalModel.getColumnCount(); col++) {
+            filteredModel.addColumn(originalModel.getColumnName(col));
+        }
+        for (int row = 0; row < originalModel.getRowCount(); row++) {
+            boolean rowFound = false;
+            for (int col = 0; col < originalModel.getColumnCount(); col++) {
+                String cellValue = originalModel.getValueAt(row, col).toString();
+                if (cellValue != null && cellValue.toLowerCase().contains(searchText.toLowerCase())) {
+                    rowFound = true;
+                    break;
+                }
+            }
+            if (rowFound) {
+                String[] rowData = new String[originalModel.getColumnCount()];
+                for (int col = 0; col < originalModel.getColumnCount(); col++) {
+                    rowData[col] = originalModel.getValueAt(row, col).toString();
+                }
+                filteredModel.addRow(rowData);
+            }
+        }
+        jTable1.setModel(filteredModel);
+    }//GEN-LAST:event_searchTFKeyTyped
+
+    private void editBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBTNActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_editBTNActionPerformed
+
+    private void deleteBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBTNActionPerformed
+        // TODO add your handling code here:
+        int selectedRowIndex = jTable1.getSelectedRow();
+        if (selectedRowIndex != -1) {
+            int option = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this record?", "Delete", JOptionPane.YES_NO_OPTION);
+            if (option == JOptionPane.YES_OPTION) {
+                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                model.removeRow(selectedRowIndex);
+                JOptionPane.showMessageDialog(this, "Record deleted successfully.", "Delete", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select a row to delete.", "Delete", JOptionPane.WARNING_MESSAGE);
+        }
+        updateFile();
+    }//GEN-LAST:event_deleteBTNActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton deleteBTN;
+    private javax.swing.JButton editBTN;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
