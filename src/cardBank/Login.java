@@ -4,6 +4,7 @@
  */
 package cardBank;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
@@ -130,7 +131,9 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
         String inputUsername = username.getText();
         String inputPassword = new String(password.getPassword());
-        try (FileReader fileReader = new FileReader("bankinfo.txt")) {
+        try {
+            File file = new File("src//cardBank//bankinfo.txt");
+            FileReader fileReader = new FileReader(file);
             Scanner scanner = new Scanner(fileReader);
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
@@ -140,7 +143,6 @@ public class Login extends javax.swing.JFrame {
                 if (inputUsername.equals(username) && inputPassword.equals(password)) {
                     String name = parts[2];
                     double balance = Double.parseDouble(parts[3]);
-                    // Open main window and pass username and balance
                     mainApp main = new mainApp(name, balance);
                     main.setVisible(true);
                     this.dispose();

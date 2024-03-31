@@ -1,0 +1,13 @@
+1*AMBA0001*Vince Flores*Tony Fowler*09123456789
+2*AMBA0002*Jake Zyruz*Charice Pempengco*09090909099
+3*AMBA0003*John Barit*Fritz Clarito*09821029810
+4*AMBA0006*Vince Cent*Rob Les*09987654321
+6*AMBA0005*Gar Barit*Bur Rizz*09821029809
+1*AMBA0001*Vince Flores*Tony Fowler*09123456789
+2*AMBA0002*Jake Zyruz*Charice Pempengco*09090909099
+3*AMBA0003*John Barit*Fritz Clarito*09821029810
+4*AMBA0006*Vince Cent*Rob Les*09987654321
+5*AMBA0004*Beer Rose*Peng Pengco*09090999999
+1*AMBA0001*Vince Flores*Tony Fowler*09123456789
+7*AMBA0010*Kent Gallego*Andrew Gallego*09091278283
+8*AMBA0008*Jude Sabanal*Ced Sadural*09096969696

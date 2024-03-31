@@ -1,8 +1,10 @@
 
-import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Scanner;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -28,21 +30,26 @@ public class busInformation extends javax.swing.JInternalFrame {
         originalModel = (DefaultTableModel) jTable1.getModel();
         originalModel.setRowCount(0);
 
-        try (BufferedReader br = new BufferedReader(new FileReader("busInformation.txt"))) {
-            String line;
-            while ((line = br.readLine()) != null) {
+        try{
+            File file = new File("src//busInformation.txt");
+            FileReader fileReader = new FileReader(file);
+            Scanner reader = new Scanner(fileReader);
+            String line = reader.nextLine();
+            while (reader.hasNextLine()) {
                 String[] data = line.split("\\*");
                 originalModel.addRow(data);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            System.out.println(e);
         }
     }
     private void resetTable() {
         jTable1.setModel(originalModel);
     }
     private void updateFile() {
-    try (FileWriter writer = new FileWriter("busInformation.txt", false)) {
+    try{
+        File file = new File("src//busInformation.txt");
+        FileWriter writer = new FileWriter(file, false);
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         for (int row = 0; row < model.getRowCount(); row++) {
             for (int col = 0; col < model.getColumnCount(); col++) {
@@ -54,7 +61,7 @@ public class busInformation extends javax.swing.JInternalFrame {
             writer.write(System.lineSeparator());
         }
     } catch (IOException e) {
-        e.printStackTrace();
+        System.out.println(e);
     }
 }
 
@@ -185,7 +192,7 @@ public class busInformation extends javax.swing.JInternalFrame {
             resetTable();
             return;
         }
-        DefaultTableModel originalModel = (DefaultTableModel) jTable1.getModel();
+        originalModel = (DefaultTableModel) jTable1.getModel();
         DefaultTableModel filteredModel = new DefaultTableModel();
         for (int col = 0; col < originalModel.getColumnCount(); col++) {
             filteredModel.addColumn(originalModel.getColumnName(col));
@@ -220,7 +227,7 @@ public class busInformation extends javax.swing.JInternalFrame {
             resetTable();
             return;
         }
-        DefaultTableModel originalModel = (DefaultTableModel) jTable1.getModel();
+        originalModel = (DefaultTableModel) jTable1.getModel();
         DefaultTableModel filteredModel = new DefaultTableModel();
         for (int col = 0; col < originalModel.getColumnCount(); col++) {
             filteredModel.addColumn(originalModel.getColumnName(col));

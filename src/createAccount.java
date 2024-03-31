@@ -2,8 +2,6 @@
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -158,7 +156,7 @@ public class createAccount extends javax.swing.JFrame {
         // TODO add your handling code here:
         FileWriter basa = null;
         try {
-            File data = new File("userDeteils.txt");
+            File data = new File("src//userDeteils.txt");
             basa = new FileWriter(data, true);
             basa.write(input()+"\n");
         } catch (IOException ex) {

@@ -4,12 +4,11 @@
  */
 package cardBank;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Scanner;
 import javax.swing.JOptionPane;
 
 /**
@@ -35,12 +34,13 @@ public class mainApp extends javax.swing.JFrame {
     }
     private void updateBankInfo() {
         try {
-        File originalFile = new File("bankinfo.txt");
-        File tempFile = new File("temp_bankinfo.txt");
-        BufferedReader reader = new BufferedReader(new FileReader(originalFile));
-        BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
-        String line;
-        while ((line = reader.readLine()) != null) {
+        File originalFile = new File("src//cardBank//bankinfo.txt");
+        File tempFile = new File("src//cardBank//temp_bankinfo.txt");
+        FileWriter writer = new FileWriter(tempFile);
+        FileReader fileReader = new FileReader(originalFile);
+        Scanner reader = new Scanner(fileReader);
+        while (reader.hasNextLine()) {
+            String line = reader.nextLine();
             String[] parts = line.split("\\*");
             if (parts[2].equals(name)) {
                 parts[3] = String.valueOf(balance);
@@ -50,7 +50,7 @@ public class mainApp extends javax.swing.JFrame {
         }
         reader.close();
         writer.close();
-        
+        fileReader.close();
         // Replace the original file with the temporary one
         if (originalFile.delete()) {
             if (!tempFile.renameTo(originalFile)) {

@@ -49,7 +49,7 @@ public class customerMain extends javax.swing.JFrame {
             .addGap(0, 433, Short.MAX_VALUE)
         );
 
-        jMenu5.setText("Ticketing");
+        jMenu5.setText("Manage Booking");
 
         jMenuItem6.setText("Book");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
@@ -108,9 +108,9 @@ public class customerMain extends javax.swing.JFrame {
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         // TODO add your handling code here:
-        addBookings addBook = new addBookings();
-        jDesktopPane1.add(addBook);        
-        addBook.setVisible(true);
+        customerBook Book = new customerBook();
+        jDesktopPane1.add(Book);        
+        Book.setVisible(true);
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     /**
