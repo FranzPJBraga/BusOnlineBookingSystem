@@ -132,7 +132,7 @@ public class Login extends javax.swing.JFrame {
         String inputUsername = username.getText();
         String inputPassword = new String(password.getPassword());
         try {
-            File file = new File("src//cardBank//bankinfo.txt");
+            File file = new File("bankinfo.txt");
             FileReader fileReader = new FileReader(file);
             Scanner scanner = new Scanner(fileReader);
             while (scanner.hasNextLine()) {

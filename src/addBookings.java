@@ -46,7 +46,7 @@ public class addBookings extends javax.swing.JInternalFrame {
     }
     private void BusNumbers() {
         try {
-            File file = new File("src//busInformation.txt");
+            File file = new File("busInformation.txt");
             FileReader fileReader = new FileReader(file);
             Scanner reader = new Scanner(fileReader);
             String line = reader.nextLine();
@@ -250,7 +250,7 @@ public class addBookings extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         FileWriter writer = null;
         try {
-            File bookingFile = new File("src//BookingDetails.txt");
+            File bookingFile = new File("BookingDetails.txt");
             writer = new FileWriter(bookingFile, true);
             writer.write(getInputDetails() + "\n");
         } catch (IOException ex) {

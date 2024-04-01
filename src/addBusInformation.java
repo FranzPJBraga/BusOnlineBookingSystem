@@ -179,7 +179,7 @@ public class addBusInformation extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         FileWriter basa = null;
         try {
-            File data = new File("src//busInformation.txt");
+            File data = new File("busInformation.txt");
             basa = new FileWriter(data, true);
             basa.write(input()+"\n");
         } catch (IOException ex) {

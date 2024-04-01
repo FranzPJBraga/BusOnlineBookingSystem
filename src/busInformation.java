@@ -31,7 +31,7 @@ public class busInformation extends javax.swing.JInternalFrame {
         originalModel.setRowCount(0);
 
         try{
-            File file = new File("src//busInformation.txt");
+            File file = new File("busInformation.txt");
             FileReader fileReader = new FileReader(file);
             Scanner reader = new Scanner(fileReader);
             String line = reader.nextLine();
@@ -48,7 +48,7 @@ public class busInformation extends javax.swing.JInternalFrame {
     }
     private void updateFile() {
     try{
-        File file = new File("src//busInformation.txt");
+        File file = new File("busInformation.txt");
         FileWriter writer = new FileWriter(file, false);
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         for (int row = 0; row < model.getRowCount(); row++) {

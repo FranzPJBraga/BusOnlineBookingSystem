@@ -30,9 +30,8 @@ public class userLogin extends javax.swing.JFrame {
      */
         private String login(String username, String password) {
         try{
-            File file = new File("src//userDeteils.txt");
-            FileReader fileReader = new FileReader(file);
-            Scanner reader = new Scanner(fileReader);
+            File file = new File("userDeteils.txt");
+            Scanner reader = new Scanner(file);
             String line = reader.nextLine();
             while (reader.hasNextLine()) {
                 String[] parts = line.split("\\*");
@@ -40,9 +39,11 @@ public class userLogin extends javax.swing.JFrame {
                 String storedPassword = parts[2].trim();
                 String userType = parts[3].trim();
                 if (username.equals(storedUsername) && password.equals(storedPassword)) {
+                    reader.close();
                     return userType;
                 }
             }
+            reader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

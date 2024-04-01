@@ -156,7 +156,7 @@ public class createAccount extends javax.swing.JFrame {
         // TODO add your handling code here:
         FileWriter basa = null;
         try {
-            File data = new File("src//userDeteils.txt");
+            File data = new File("userDeteils.txt");
             basa = new FileWriter(data, true);
             basa.write(input()+"\n");
         } catch (IOException ex) {

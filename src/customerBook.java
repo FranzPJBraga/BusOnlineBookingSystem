@@ -29,7 +29,7 @@ public class customerBook extends javax.swing.JInternalFrame {
         originalModel.setRowCount(0);
 
         try{
-            File file = new File("src//BookingDetails.txt");
+            File file = new File("BookingDetails.txt");
             FileReader fileReader = new FileReader(file);
             Scanner reader = new Scanner(fileReader);
             String line = reader.nextLine();

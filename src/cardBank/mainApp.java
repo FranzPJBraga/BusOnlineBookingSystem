@@ -34,8 +34,8 @@ public class mainApp extends javax.swing.JFrame {
     }
     private void updateBankInfo() {
         try {
-        File originalFile = new File("src//cardBank//bankinfo.txt");
-        File tempFile = new File("src//cardBank//temp_bankinfo.txt");
+        File originalFile = new File("bankinfo.txt");
+        File tempFile = new File("temp_bankinfo.txt");
         FileWriter writer = new FileWriter(tempFile);
         FileReader fileReader = new FileReader(originalFile);
         Scanner reader = new Scanner(fileReader);
